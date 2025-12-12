@@ -19,59 +19,54 @@ export default function SessionPage({ params }: { params: { slug: string } }) {
         <a href="/">← Back to Sessions</a>
       </div>
 
-      <h1 className="session-title">{session.title}</h1>
-      <p className="session-meta">DJ: {session.dj}</p>
-      <p className="session-date">Date: {session.date}</p>
+      {/* Mixcloud Player */}
+      {session.mixcloudUrl && (
+        <div className="mixcloud-player">
+          <iframe 
+            width="100%" 
+            height="400" 
+            src={session.mixcloudUrl}
+            frameBorder="0" 
+            allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;"
+          />
+        </div>
+      )}
 
-      <div className="session-image-container">
-        <img src={session.image} alt={session.title} className="session-image" />
-      </div>
-
-      <div className="session-description">
-        {session.description}
-      </div>
-
-      <h2 className="tracklist-title">Tracklist ({session.tracks.length} Tracks)</h2>
-
-      <div className="tracks-grid">
+      {/* Compact Tracklist */}
+      <div className="tracklist-compact">
         {session.tracks.map((track, index) => (
-          <div key={index} className="track-item">
-            <div className="track-card">
-              <div className="album-placeholder">
-                <div className="placeholder-icon">♪</div>
+          <div key={index} className="track-row">
+            <div className="track-number">#{index + 1}</div>
+            <div className="track-info">
+              <div className="track-title">{track.name}</div>
+              <div className="track-meta">
+                {track.artist} | {track.bpm} BPM | {track.key} | {track.duration}
               </div>
             </div>
-            <div className="track-info">
-              <h3 className="track-number">#{index + 1} {track.name}</h3>
-              <p className="track-artist">by {track.artist}</p>
-              <p className="track-details">
-                {track.bpm} BPM | Key: {track.key} | Duration: {track.duration}
-              </p>
-              <a
-                href={`https://open.spotify.com/search/${encodeURIComponent(
-                  `${track.name} ${track.artist}`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="spotify-button"
-              >
-                Open in Spotify
-              </a>
-            </div>
+            <a
+              href={`https://open.spotify.com/search/${encodeURIComponent(
+                `${track.name} ${track.artist}`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="spotify-link"
+            >
+              ♫
+            </a>
           </div>
         ))}
       </div>
 
       <style jsx>{`
         .container {
-          max-width: 1400px;
+          max-width: 1200px;
           margin: 0 auto;
-          padding: 40px 20px;
+          padding: 20px;
           color: #e0e0e0;
         }
 
         .back-link {
-          margin-bottom: 30px;
+          margin-bottom: 20px;
         }
 
         .back-link a {
@@ -85,147 +80,87 @@ export default function SessionPage({ params }: { params: { slug: string } }) {
           color: #ffff00;
         }
 
-        .session-title {
-          font-size: 3em;
-          color: #ffff00;
-          text-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
-          margin-bottom: 20px;
-          font-family: 'Courier New', monospace;
-        }
-
-        .session-meta,
-        .session-date {
-          color: #00d9ff;
-          font-family: 'Courier New', monospace;
-          margin-bottom: 10px;
-        }
-
-        .session-image-container {
-          border: 3px solid #ffff00;
-          margin: 30px 0;
-          overflow: hidden;
-        }
-
-        .session-image {
-          width: 100%;
-          height: auto;
-          display: block;
-        }
-
-        .session-description {
-          border: 2px solid #ffff00;
-          padding: 20px;
-          color: #ffff00;
-          margin-bottom: 30px;
-          font-family: 'Courier New', monospace;
-        }
-
-        .tracklist-title {
-          font-size: 2em;
-          color: #ffff00;
-          font-family: 'Courier New', monospace;
-          margin-bottom: 30px;
-        }
-
-        .tracks-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-          gap: 25px;
+        .mixcloud-player {
           margin-bottom: 40px;
-        }
-
-        .track-item {
           border: 2px solid #ffff00;
           padding: 0;
           overflow: hidden;
-          transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .mixcloud-player iframe {
+          display: block;
+        }
+
+        .tracklist-compact {
+          border: 2px solid #ffff00;
           background: rgba(0, 0, 0, 0.5);
         }
 
-        .track-item:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
-        }
-
-        .track-card {
-          width: 100%;
-          aspect-ratio: 1;
-          background: #1a1a1a;
+        .track-row {
           display: flex;
           align-items: center;
-          justify-content: center;
+          gap: 15px;
+          padding: 12px 15px;
+          border-bottom: 1px solid #333;
+          transition: background 0.2s;
         }
 
-        .album-placeholder {
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 3em;
-          color: #444;
+        .track-row:last-child {
+          border-bottom: none;
         }
 
-        .placeholder-icon {
-          font-size: 4em;
-          color: #333;
-        }
-
-        .track-info {
-          padding: 15px;
+        .track-row:hover {
+          background: rgba(255, 255, 0, 0.1);
         }
 
         .track-number {
           color: #ffff00;
-          margin: 0 0 5px 0;
-          font-size: 0.95em;
-          font-family: 'Courier New', monospace;
-          line-height: 1.3;
-          word-break: break-word;
-        }
-
-        .track-artist {
-          color: #00d9ff;
-          margin: 0 0 8px 0;
-          font-size: 0.9em;
-          font-family: 'Courier New', monospace;
-        }
-
-        .track-details {
-          color: #999;
-          margin: 0 0 12px 0;
-          font-size: 0.8em;
-          font-family: 'Courier New', monospace;
-        }
-
-        .spotify-button {
-          display: inline-block;
-          background: #1DB954;
-          color: white;
-          padding: 8px 12px;
-          border-radius: 20px;
-          text-decoration: none;
-          font-size: 0.8em;
           font-weight: bold;
-          transition: background 0.3s, transform 0.2s;
-          font-family: Arial, sans-serif;
-          white-space: nowrap;
+          font-family: 'Courier New', monospace;
+          min-width: 40px;
+          font-size: 0.9em;
         }
 
-        .spotify-button:hover {
-          background: #1ed760;
-          transform: scale(1.05);
+        .track-info {
+          flex: 1;
+        }
+
+        .track-title {
+          color: #ffff00;
+          font-family: 'Courier New', monospace;
+          font-size: 1em;
+          margin-bottom: 4px;
+        }
+
+        .track-meta {
+          color: #00d9ff;
+          font-family: 'Courier New', monospace;
+          font-size: 0.85em;
+        }
+
+        .spotify-link {
+          color: #1DB954;
+          font-size: 1.5em;
+          text-decoration: none;
+          transition: transform 0.2s;
+          display: flex;
+          align-items: center;
+          padding: 5px;
+        }
+
+        .spotify-link:hover {
+          transform: scale(1.2);
         }
 
         @media (max-width: 768px) {
-          .session-title {
-            font-size: 2em;
+          .track-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
           }
 
-          .tracks-grid {
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
+          .track-number {
+            min-width: auto;
           }
         }
       `}</style>
