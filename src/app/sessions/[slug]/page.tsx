@@ -20,6 +20,7 @@ export default function SessionPage({ params }: { params: { slug: string } }) {
       </div>
 
       {/* Mixcloud Player */}
+            {/* @ts-ignore */}
       {session.mixcloudUrl && (
         <div className="mixcloud-player">
           <iframe 
