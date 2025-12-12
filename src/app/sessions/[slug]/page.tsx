@@ -40,14 +40,14 @@ export default function SessionPage({ params }: { params: { slug: string } }) {
           <div key={index} className="track-row">
             <div className="track-number">#{index + 1}</div>
             <div className="track-info">
-              <div className="track-title">{track.name}</div>
+              <div className="track-title">{track.title}</div>
               <div className="track-meta">
                 {track.artist} | {track.bpm} BPM | {track.key} | {track.duration}
               </div>
             </div>
             <a
               href={`https://open.spotify.com/search/${encodeURIComponent(
-                `${track.name} ${track.artist}`
+                `${track.title} ${track.artist}`
               )}`}
               target="_blank"
               rel="noopener noreferrer"
