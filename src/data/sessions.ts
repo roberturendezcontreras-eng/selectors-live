@@ -20,6 +20,7 @@ export interface Session {
   tracks: Track[];
   coverImage?: string;
     mixcloudUrl?: string;
+    vimeoUrl?: string;
 }
 
 export const sessions: Session[] = [
