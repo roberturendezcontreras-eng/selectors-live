@@ -1,48 +1,6 @@
 'use client';
 
 import { sessions } from '@/data/sessions';
-import { useState, useEffect } from 'react';
-
-const TrackCard = ({ track, artist }: { track: string; artist: string }) => {
-  const [image, setImage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTrackImage = async () => {
-      try {
-        const response = await fetch(
-          `/api/search-track?q=${encodeURIComponent(track)}&artist=${encodeURIComponent(artist)}`
-        );
-        const data = await response.json();
-        setImage(data.image);
-      } catch (error) {
-        console.error('Error fetching track image:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTrackImage();
-  }, [track, artist]);
-
-  return (
-    <div className="track-card-container">
-      {loading ? (
-        <div className="album-placeholder">
-          <div className="placeholder-skeleton">Loading...</div>
-        </div>
-      ) : image ? (
-        <div className="album-artwork">
-          <img src={image} alt={`${track} - ${artist}`} />
-        </div>
-      ) : (
-        <div className="album-placeholder">
-          <div className="placeholder-icon">♪</div>
-        </div>
-      )}
-    </div>
-  );
-};
 
 export default function SessionPage({ params }: { params: { slug: string } }) {
   const session = sessions.find((s) => s.slug === params.slug);
@@ -78,7 +36,11 @@ export default function SessionPage({ params }: { params: { slug: string } }) {
       <div className="tracks-grid">
         {session.tracks.map((track, index) => (
           <div key={index} className="track-item">
-            <TrackCard track={track.name} artist={track.artist} />
+            <div className="track-card">
+              <div className="album-placeholder">
+                <div className="placeholder-icon">♪</div>
+              </div>
+            </div>
             <div className="track-info">
               <h3 className="track-number">#{index + 1} {track.name}</h3>
               <p className="track-artist">by {track.artist}</p>
@@ -185,25 +147,13 @@ export default function SessionPage({ params }: { params: { slug: string } }) {
           box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
         }
 
-        .track-card-container {
+        .track-card {
           width: 100%;
           aspect-ratio: 1;
           background: #1a1a1a;
           display: flex;
           align-items: center;
           justify-content: center;
-        }
-
-        .album-artwork {
-          width: 100%;
-          height: 100%;
-          position: relative;
-        }
-
-        .album-artwork img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
         }
 
         .album-placeholder {
@@ -220,12 +170,6 @@ export default function SessionPage({ params }: { params: { slug: string } }) {
         .placeholder-icon {
           font-size: 4em;
           color: #333;
-        }
-
-        .placeholder-skeleton {
-          font-size: 0.8em;
-          color: #666;
-          font-family: 'Courier New', monospace;
         }
 
         .track-info {
