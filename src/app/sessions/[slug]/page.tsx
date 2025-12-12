@@ -19,16 +19,17 @@ export default function SessionPage({ params }: { params: { slug: string } }) {
         <a href="/">← Back to Sessions</a>
       </div>
 
-      {/* Mixcloud Player */}
+      {/* Vimeo Video Player */}
             {/* @ts-ignore */}
-      {session.mixcloudUrl && (
-        <div className="mixcloud-player">
+            {/* @ts-ignore */}
+            {session.vimeoUrl && (
+                <div className="vimeo-player">
           <iframe 
             width="100%" 
             height="400" 
-            src={session.mixcloudUrl}
+                        src={session.vimeoUrl}
             frameBorder="0" 
-            allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;"
+                        allow="autoplay; fullscreen; picture-in-picture"
           />
         </div>
       )}
