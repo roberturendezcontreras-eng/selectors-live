@@ -33,8 +33,7 @@ export const sessions: Session[] = [
     description: 'Electronic music journey through deep house and techno',
     coverImage: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=800&fit=crop',
         mixcloudUrl: 'https://player-widget.mixcloud.com/widget/iframe/?light=1&feed=%2Finvasionselectors%2Fselectors-vol1-20251211-235405%2F',
-        vimeoUrl: 'https://player.vimeo.com/video/76979871',
-    tracks: [
+    vimeoUrl: 'https://player.vimeo.com/video/1145821192',    tracks: [
       { id: '1', title: 'Turning Around (Gerd Janson Remix)', artist: 'Theo Kottis', bpm: 124, key: 'Ab', album: 'Turning Around (Gerd Janson Remix)', duration: '06:50' },
       { id: '2', title: 'Closer to the Truth', artist: 'Jaymo & Andy George', bpm: 122, key: 'G', album: 'Single', duration: '06:15' },
       { id: '3', title: 'Move It', artist: 'Pional', bpm: 120, key: 'C', album: 'Single', duration: '05:45' },
